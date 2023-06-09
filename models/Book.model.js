@@ -1,0 +1,19 @@
+const moongoose = require('moongoose');
+
+const bookSchema = moongoose.Schema({
+    userId: { type: String, required: true },
+    title: { type: String, required: true },
+    author: { type: String, required: true },
+    year: { type: Number, required: true },
+    genre: { type: String, required: true },
+    rating: [
+        {
+            userId: { type: String, required: true },
+            grade: { type: Number, required: true, min: 1, max: 5 },
+        },
+    ],
+    averageRating: { type: Number, min: 1, max: 5 },
+    imageUrl: { type: String, required: true },
+});
+
+module.exports = moongoose.model('Book', bookSchema);
