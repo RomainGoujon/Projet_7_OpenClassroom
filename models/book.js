@@ -1,6 +1,6 @@
-const moongoose = require('moongoose');
+const mongoose = require('mongoose');
 
-const bookSchema = moongoose.Schema({
+const bookSchema = mongoose.Schema({
     userId: { type: String, required: true },
     title: { type: String, required: true },
     author: { type: String, required: true },
@@ -16,4 +16,4 @@ const bookSchema = moongoose.Schema({
     imageUrl: { type: String, required: true },
 });
 
-module.exports = moongoose.model('Book', bookSchema);
+module.exports = mongoose.model('Book', bookSchema);
