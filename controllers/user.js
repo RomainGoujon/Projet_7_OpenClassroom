@@ -28,10 +28,10 @@ exports.signup = (req, res, next) => {
     const password = mongoSanitize(req.body.password);
 
     if(!emailValidator.validate(email)) {
-        return res.status(401).json({ message: 'Mot de passe ou email incorrect' });
+        return res.status(401).json({ message: 'Email et/ou Mot de passe pas valide' });
     } 
     if(!validatePassword(password)) {
-        return res.status(401).json({ message: 'Mot de passe ou email incorrect' });
+        return res.status(401).json({ message: 'Email et/ou Mot de passe pas valide' });
     }
 
     bcrypt.hash(password, 10)
