@@ -1,7 +1,9 @@
 const brcypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const User = require('../models/user');
+
 
 exports.signup = (req, res, next) => {
     brcypt.hash(req.body.password, 10)
@@ -17,6 +19,7 @@ exports.signup = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
+
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
         .then(user => {
@@ -24,7 +27,7 @@ exports.login = (req, res, next) => {
                 return res.status(401).json({
                     message: 'Paire login/mot de passe incorrecte' });
             } 
-            brcypt.compare(req.body.passwor, user.password)
+            brcypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if (!valid) {
                     return res.status(401).json({
@@ -34,7 +37,7 @@ exports.login = (req, res, next) => {
                         userId: user._id,
                         token: jwt.sign(
                             { userId: user._id },
-                            'RANDOM_TOKEN_SECRET',
+                            process.env.CLE_TOKEN,
                             { expiresIn: '24h' }
                         )
                     });
