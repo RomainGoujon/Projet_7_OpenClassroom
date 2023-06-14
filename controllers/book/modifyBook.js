@@ -3,7 +3,7 @@ const fs = require('fs');
 const mongoSanitize = require('mongo-sanitize');
 
 exports.modifyBook = (req, res) => {
-    const bookObject = req.file ? {
+    let bookObject = req.file ? {
         ...JSON.parse(mongoSanitize(req.body.book)),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...mongoSanitize(req.body) };

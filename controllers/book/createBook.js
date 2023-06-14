@@ -3,7 +3,7 @@ const mongoSanitize = require('mongo-sanitize');
 
 exports.createBook = (req, res) => {
 
-    const bookObject = mongoSanitize(req.body.book);
+    let bookObject = mongoSanitize(req.body.book);
         bookObject = JSON.parse(req.body.book);
     delete bookObject._id;
     delete bookObject._userId;
