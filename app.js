@@ -9,7 +9,7 @@ const booksRoutes = require('./routes/book');
 const userRoutes = require('./routes/user');
 
 // lien pour connecter avec MongoDB
-mongoose.connect('mongodb+srv://romainG:' + process.env.MDP_DB + '@cluster0.b1wdcec.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect(process.env.USER_MDP_DB,
     { 
         useNewUrlParser: true,
         useUnifiedTopology: true 

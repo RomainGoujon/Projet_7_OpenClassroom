@@ -1,11 +1,12 @@
 const Book = require('../../models/book');
 const fs = require('fs');
+const mongoSanitize = require('mongo-sanitize');
 
 exports.modifyBook = (req, res) => {
     const bookObject = req.file ? {
-        ...JSON.parse(req.body.book),
+        ...JSON.parse(mongoSanitize(req.body.book)),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body };
+    } : { ...mongoSanitize(req.body) };
 
     delete bookObject._userId;
 
