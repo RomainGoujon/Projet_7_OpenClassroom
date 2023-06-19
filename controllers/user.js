@@ -1,29 +1,14 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+
 const emailValidator = require('email-validator');
-const passwordValidator = require('password-validator');
+const validatePassword = require('../passwordSchema');
 const mongoSanitize = require('mongo-sanitize');
 require('dotenv').config();
 
-function validatePassword(password) {
-const passwordSchema = new passwordValidator();
 
-    passwordSchema
-        .is().min(8)
-        .is().max(100)
-        .has().uppercase()
-        .has().lowercase()
-        .has().digits()
-        .has().not().spaces()
-        .has().symbols();
-    
-    return passwordSchema.validate(password, { list: true });
-};
-
-
-
-exports.signup = (req, res, next) => {
+exports.signup = (req, res) => {
     const email = mongoSanitize(req.body.email);
     const password = mongoSanitize(req.body.password);
 
@@ -38,7 +23,7 @@ exports.signup = (req, res, next) => {
         .then(hash => {
             const user = new User({
                 email: req.body.email,
-                password: hash
+                password: hash,
             });
             user.save()
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
@@ -48,7 +33,7 @@ exports.signup = (req, res, next) => {
 };
 
 
-exports.login = (req, res, next) => {
+exports.login = (req, res) => {
     const email = mongoSanitize(req.body.email);
 
     User.findOne({ email })

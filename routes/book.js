@@ -2,6 +2,7 @@ const express = require('express');
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
 const sharp = require('../middleware/sharp-config');
+const router = express.Router();
 
 const { deleteBook } = require('../controllers/book/deleteBook');
 const { getAllBooks } = require('../controllers/book/getAllBooks');
@@ -11,11 +12,10 @@ const { modifyBook } = require('../controllers/book/modifyBook');
 const { getBestBook } = require('../controllers/book/getBestBook');
 const { rateBook } = require('../controllers/book/rateBook');
 
-const router = express.Router();
 
-router.get('/', auth, getAllBooks);
-router.get('/:id', auth, getOneBook);
+router.get('/', getAllBooks);
 router.get('/bestrating', getBestBook);
+router.get('/:id', getOneBook);
 
 router.delete('/:id', auth, deleteBook);
 

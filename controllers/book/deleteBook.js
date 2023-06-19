@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Book = require('../../models/book');
 
-exports.deleteBook = (req, res, next) => {
+exports.deleteBook = (req, res) => {
     Book.findOne({ _id: req.params.id })
         .then((book) => {
             if (book.userId !== req.auth.userId) {

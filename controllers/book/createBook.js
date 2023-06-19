@@ -3,8 +3,7 @@ const mongoSanitize = require('mongo-sanitize');
 
 exports.createBook = (req, res) => {
 
-    let bookObject = mongoSanitize(req.body.book);
-        bookObject = JSON.parse(req.body.book);
+    let bookObject = JSON.parse(mongoSanitize(req.body.book));
     delete bookObject._id;
     delete bookObject._userId;
     
@@ -16,5 +15,8 @@ exports.createBook = (req, res) => {
 
     book.save()
         .then(() => res.status(201).json({ message: 'Livre enregistré !' }))
-        .catch(error => res.status(400).json({ error }));
+        .catch((error) => {
+            console.log(error)
+            res.status(400).json({ error })}
+            );
 };

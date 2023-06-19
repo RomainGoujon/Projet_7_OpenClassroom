@@ -3,7 +3,7 @@ const Book = require('../../models/book');
 exports.rateBook = (req, res) => {
     Book.findOne({ _id: req.params.id })
         .then(book => {
-            book.rating.map(rate => {
+            book.ratings.map(rate => {
                 if ( req.auth.userId === rate.userId ) {
                     res.status(400).json({ message: 'Vous avez déjà noté ce livre !' })
                 }
@@ -15,8 +15,8 @@ exports.rateBook = (req, res) => {
             });
             let sumRating = 0;
 
-            book.rating.map(rate => sumRating += rate.grade);
-            book.averageRating = sumRating / book.ratings.lenght;
+            book.ratings.map(rate => sumRating += rate.grade);
+            book.averageRating = sumRating / book.ratings.length;
 
             Book.updateOne({ _id: req.params.id }, book)
                 .then(() => { res.status(201).json(book) })
