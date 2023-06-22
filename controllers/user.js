@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const emailValidator = require('email-validator');
-const validatePassword = require('../passwordSchema');
+const validatePassword = require('../validate/passwordSchema');
 const mongoSanitize = require('mongo-sanitize');
 require('dotenv').config();
 
@@ -12,12 +12,9 @@ exports.signup = (req, res) => {
     const email = mongoSanitize(req.body.email);
     const password = mongoSanitize(req.body.password);
 
-    if(!emailValidator.validate(email)) {
+    if(!emailValidator.validate(email) || !validatePassword(password)) {
         return res.status(401).json({ message: 'Email et/ou Mot de passe pas valide' });
     } 
-    if(!validatePassword(password)) {
-        return res.status(401).json({ message: 'Email et/ou Mot de passe pas valide' });
-    }
 
     bcrypt.hash(password, 10)
         .then(hash => {

@@ -8,7 +8,7 @@ exports.rateBook = (req, res) => {
                     res.status(400).json({ message: 'Vous avez déjà noté ce livre !' })
                 }
             })
-            const reqUserId = req.auth.userId;
+            
             book.ratings.push({
                 'userId': req.auth.userId,
                 'grade': req.body.rating

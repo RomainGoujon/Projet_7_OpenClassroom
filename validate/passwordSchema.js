@@ -12,7 +12,13 @@ function validatePassword(password) {
             .has().not().spaces()
             .has().symbols();
         
-        return passwordSchema.validate(password, { list: true });
+        const validatePass = passwordSchema.validate(password, { list: true });
+
+        if (password.length < 8) {
+            errors.push("Le mot de passe doit avoir au moins 8 caractères.");
+        }
+
+        return validatePass;
     };
 
     module.exports = validatePassword;
