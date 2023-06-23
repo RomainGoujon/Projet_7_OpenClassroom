@@ -16,7 +16,17 @@ exports.modifyBook = (req, res) => {
                 res.status(401).json({ message : 'Non autorisé' });
             } else {
                 Book.updateOne({ _id: req.params.id }, { ...bookObject, _id: req.params.id })
-                    .then(() => res.status(200).json({ message: "Livre modifié avec succès !"}))
+                    .then(() => {
+                        if (req.file) {
+                            const imagePath = `./images/${book.imageUrl.split('/').pop()}`;
+                            fs.unlink(imagePath, (err) => {
+                                if (err) {
+                                    console.error(err);
+                                }
+                            });
+                        }
+                        res.status(200).json({ message: "Livre modifié avec succès !"})
+                    })
                     .catch(error => res.status(400).json({ error }));
             }
         })
